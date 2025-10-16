@@ -26,7 +26,13 @@ class CasaCriativaApp {
     setupEventListeners() {
         // Global click handler for modal toggle buttons
         document.addEventListener('click', (event) => {
-            if (event.target.matches('[onclick="onOff()"]') || event.target.closest('[onclick="onOff()"]')) {
+            if (event.target.matches('.add-idea-btn') || event.target.closest('.add-idea-btn')) {
+                event.preventDefault();
+                this.toggleModal();
+            }
+
+            // Handle modal close button
+            if (event.target.matches('.modal-close') || event.target.closest('.modal-close')) {
                 event.preventDefault();
                 this.toggleModal();
             }

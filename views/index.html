@@ -2,53 +2,95 @@
 
 {% block content %}
 
-
-
 <section id="intro">
 
     <header>
         <a href="/">
-
             <img src="logo.png" alt="Imagem da LogoMarca">
-
         </a>
     </header>
 
     <main>
-            <p>
-                Ficar em casa em períodos longos, não deve ser nada fácil.
-            </p>
-            
-            <p>
-                Iremos catalogar ideias, <strong> brincadeiras, jogos, filmes, 
-                livros, cursos, icas </strong>  e tudo que for necessário para 
-                tornar esse momento mais interessante.
-               
-            </p>
-            
-            <p>
-                Comece clicando em ver ideias para ver as  ideias cadastradas e 
-                contribua adicioando a sua ideia.
-            </p>                         
+        <p>
+            Ficar em casa em períodos longos, não deve ser nada fácil.
+        </p>
+
+        <p>
+            Iremos catalogar ideias, <strong> brincadeiras, jogos, filmes,
+            livros, cursos, dicas </strong>  e tudo que for necessário para
+            tornar esse momento mais interessante.
+        </p>
+
+        <p>
+            Comece clicando em ver ideias para ver as  ideias cadastradas e
+            contribua adicionando a sua ideia.
+        </p>
+
+        <!-- Display server-side errors -->
+        {% if errors %}
+        <div style="background: #ffebee; border: 1px solid #f44336; border-radius: 8px; padding: 16px; margin: 16px 0; color: #c62828;">
+            <h3 style="margin: 0 0 8px 0; color: #c62828;">Por favor, corrija os seguintes erros:</h3>
+            <ul style="margin: 0; padding-left: 20px;">
+                {% for error in errors %}
+                <li>{{ error.msg }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Display general error -->
+        {% if error %}
+        <div style="background: #ffebee; border: 1px solid #f44336; border-radius: 8px; padding: 16px; margin: 16px 0; color: #c62828;">
+            {{ error }}
+        </div>
+        {% endif %}
    </main>
 
-    
     <section id="buttons">
-        <button onclick="onOff()">+ Adicionar Ideia</button>
+        <button class="add-idea-btn">+ Adicionar Ideia</button>
         <a href="/ideias" class="button"> Ver Ideias </a>
     </section>
 
- 
-    <footer> 
+    <footer>
         Com ❤ <a href="https://rocketseat.com.br/" target="_blank">Rocketseat</a>
     </footer>
 
 </section>
 
 <section id="last-ideias">
-
-{% include "all_ideas.html" %}  
-               
+    {% include "all_ideas.html" %}
 </section>
+
+<!-- Auto-show modal if there are errors or if showModal is true -->
+{% if errors or showModal %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-show modal if there are validation errors
+        var modal = document.querySelector("#modal");
+        var body = document.querySelector("body");
+
+        if (modal && body) {
+            modal.classList.remove("hide");
+            body.classList.add("hideScroll");
+            modal.classList.add("addScroll");
+        }
+
+        // Pre-populate form with submitted data
+        {% if formData %}
+        var titleField = document.querySelector('input[name="title"]');
+        var categoryField = document.querySelector('input[name="category"]');
+        var imageField = document.querySelector('input[name="image"]');
+        var descriptionField = document.querySelector('textarea[name="description"]');
+        var linkField = document.querySelector('input[name="link"]');
+
+        if (titleField) titleField.value = "{{ formData.title | escape }}";
+        if (categoryField) categoryField.value = "{{ formData.category | escape }}";
+        if (imageField) imageField.value = "{{ formData.image | escape }}";
+        if (descriptionField) descriptionField.value = "{{ formData.description | escape }}";
+        if (linkField) linkField.value = "{{ formData.link | escape }}";
+        {% endif %}
+    });
+</script>
+{% endif %}
 
 {% endblock %}

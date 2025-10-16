@@ -40,8 +40,9 @@ app.use(helmet({
             defaultSrc: ["'self'"],
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
-            scriptSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
             imgSrc: ["'self'", "data:", "https:"],
+            scriptSrcAttr: ["'unsafe-inline'"],
         },
     },
 }));
@@ -96,7 +97,10 @@ const db = setupDatabase();
 app.get('/', async (req, res) => {
     try {
         const ideas = await getLastIdeas(2);
-        res.render('index.html', { ideas });
+        res.render('index.html', {
+            ideas,
+            showModal: false // Ensure modal is hidden by default
+        });
     } catch (error) {
         logger.error('Error loading home page:', error);
         res.status(500).render('error.html', {
@@ -125,34 +129,40 @@ app.post('/', [
     body('title')
         .trim()
         .isLength({ min: 1, max: 100 })
-        .withMessage('Title is required and must be less than 100 characters')
+        .withMessage('Título é obrigatório e deve ter menos de 100 caracteres')
         .escape(),
     body('category')
         .trim()
         .isLength({ min: 1, max: 50 })
-        .withMessage('Category is required and must be less than 50 characters')
+        .withMessage('Categoria é obrigatória e deve ter menos de 50 caracteres')
         .escape(),
     body('description')
         .trim()
         .isLength({ min: 1, max: 500 })
-        .withMessage('Description is required and must be less than 500 characters')
+        .withMessage('Descrição é obrigatória e deve ter menos de 500 caracteres')
         .escape(),
     body('image')
         .optional()
         .isURL()
-        .withMessage('Image must be a valid URL'),
+        .withMessage('Imagem deve ser uma URL válida'),
     body('link')
         .optional()
         .isURL()
-        .withMessage('Link must be a valid URL')
+        .withMessage('Link deve ser uma URL válida')
 ], async (req, res) => {
     try {
         // Check for validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({
-                success: false,
-                errors: errors.array()
+            // Get existing ideas for the page
+            const ideas = await getLastIdeas(2);
+
+            // Render the page with errors and form data
+            return res.render('index.html', {
+                ideas,
+                errors: errors.array(),
+                formData: req.body,
+                showModal: true
             });
         }
 
@@ -167,9 +177,15 @@ app.post('/', [
         res.redirect('/ideias');
     } catch (error) {
         logger.error('Error creating idea:', error);
-        res.status(500).render('error.html', {
-            error: 'Unable to save your idea. Please try again.',
-            statusCode: 500
+
+        // Get existing ideas for error page
+        const ideas = await getLastIdeas(2);
+
+        res.status(500).render('index.html', {
+            ideas,
+            error: 'Não foi possível salvar sua ideia. Tente novamente.',
+            statusCode: 500,
+            showModal: true
         });
     }
 });

@@ -181,17 +181,18 @@ footer a {
 
 #modal {
     background: #ff5e84;
-    
+
     position: fixed;
     top:0;
     bottom: 0;
     right: 0;
     left: 0;
 
-        
-   
+    z-index: 9999;
+
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 
     transition: 400ms;
 
@@ -203,15 +204,22 @@ footer a {
 
 #modal .content {
     margin-top: 5%;
-
-    color: white;
+    padding: 32px;
+    background: white;
+    color: #333;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    margin: 5% auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 
 }
 
 #modal .content h1 {
     text-align: center;
-
+    color: #333;
     text-transform: uppercase;
+    margin-bottom: 24px;
 }
 
 #modal form {
@@ -226,6 +234,38 @@ footer a {
     gap:20px;
 }
 
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    #modal .content {
+        width: 95%;
+        padding: 20px;
+        margin: 2% auto;
+    }
+
+    #modal form {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .content form div:nth-child(3),
+    .content form div:nth-child(4),
+    .content form div:nth-child(5) {
+        grid-column: span 1;
+    }
+
+    form button {
+        grid-column: 1;
+        justify-self: center;
+        margin-top: 16px;
+    }
+
+    form a {
+        align-self: center;
+        margin-top: 16px;
+    }
+}
+
 .content form div:nth-child(3),
 .content form div:nth-child(4),
 .content form div:nth-child(5) {
@@ -233,7 +273,7 @@ footer a {
 }
 
 
-form input, 
+form input,
 form textarea {
     width: 100%;
 
@@ -242,18 +282,29 @@ form textarea {
     box-sizing: border-box;
 
     border-radius: 6px;
-    border:1px solid rgba(141,25,52,0.5);
+    border:1px solid #ddd;
 
     outline: none;
 
     font-size: 16px;
+
+    background: white;
+    color: #333;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: #ff5e84;
+    box-shadow: 0 0 0 2px rgba(255, 94, 132, 0.1);
 }
 
 form label {
     font-weight: 600;
     line-height: 32px;
     letter-spacing: 0.8px;
-
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
 }
 
 form a {
@@ -261,8 +312,8 @@ form a {
     width: 150px;
     height: 40px;
 
-    background-color: #ffffff22;
-    color: white;
+    background-color: #f8f9fa;
+    color: #333;
 
     display: flex;
     align-items: center;
@@ -276,24 +327,28 @@ form a {
     align-self: end;
 
     transition: 400ms;
+    text-decoration: none;
+    border: 1px solid #ddd;
 }
 
 form a:hover{
 
-    background: #FFF;
+    background: #e9ecef;
     color: #ff5e84;
-    
+
     text-decoration: none;
 
 }
 
 form button {
-    background: white;
+    background: #ff5e84;
+    color: white;
 
     width: 150px;
     height: 40px;
 
     border-radius: 6px;
+    border: none;
 
     cursor: pointer;
 
@@ -305,10 +360,12 @@ form button {
 
     transition: 400ms;
 
+    font-size: 14px;
+    font-weight: bold;
 }
 
 form button:hover{
-    background-color: #0984e3;
+    background-color: #ff4785;
     color: white;
 
     text-decoration: none;
@@ -317,7 +374,14 @@ form button:hover{
 #modal.hide {
     opacity: 0;
     visibility: hidden;
-  
+}
+
+/* Error message styling for form validation */
+.error-message {
+    color: #ff5e84;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
 }
 
 
