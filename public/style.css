@@ -331,6 +331,35 @@ form a {
     border: 1px solid #ddd;
 }
 
+/* Button version for modal close */
+form .modal-close {
+    width: 150px;
+    height: 40px;
+
+    background-color: #f8f9fa;
+    color: #333;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    border-radius: 6px;
+
+    align-self: end;
+
+    transition: 400ms;
+    text-decoration: none;
+    border: 1px solid #ddd;
+}
+
+form .modal-close:hover{
+    background: #e9ecef;
+    color: #ff5e84;
+}
+
 form a:hover{
 
     background: #e9ecef;
@@ -455,4 +484,92 @@ section#ideas .idea{
 #section#ideas,
 footer {
     margin-top: 64px;
+}
+
+/* ==============================
+   Responsive Enhancements
+   ============================== */
+
+/* Make images scale within containers */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Medium screens: relax container width */
+@media (max-width: 1024px) {
+    #container {
+        width: 90%;
+    }
+}
+
+/* Small screens: stack layout and adjust spacing */
+@media (max-width: 768px) {
+    /* General container becomes vertical */
+    #container {
+        width: 92%;
+        margin: 24px auto;
+        flex-direction: column;
+    }
+
+    /* Intro section takes full width */
+    #intro {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    /* Buttons stack and fill width */
+    #buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    #buttons .button,
+    #buttons button {
+        width: 100%;
+        height: 44px;
+    }
+
+    /* Idea cards: vertical with centered content */
+    .idea {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 24px;
+    }
+    .idea img {
+        width: 72px;
+        height: 72px;
+        margin: 0 0 16px 0;
+    }
+
+    /* Ideas list page: header stacks and grid becomes one column */
+    #page-ideas header {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    #page-ideas nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #page-ideas nav li {
+        margin: 8px;
+    }
+    section#ideas {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* Extra small screens: fine-tune typography */
+@media (max-width: 420px) {
+    p, .description {
+        font-size: 15px;
+        line-height: 22px;
+    }
+    section#title h1 {
+        font-size: 24px;
+    }
 }
