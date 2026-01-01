@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/regesguitar/CasaCriativa#readme",
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.22.1",
     "nunjucks": "^3.2.4",
     "sqlite3": "^5.1.6",
     "helmet": "^7.1.0",
